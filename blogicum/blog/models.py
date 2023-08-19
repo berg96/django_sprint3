@@ -11,12 +11,6 @@ class PublishedModel(models.Model):
         verbose_name='Опубликовано',
         help_text='Снимите галочку, чтобы скрыть публикацию.'
     )
-
-    class Meta:
-        abstract = True
-
-
-class CrearedModel(models.Model):
     created_at = models.DateTimeField(
         auto_now_add=True,
         verbose_name='Добавлено'
@@ -26,7 +20,7 @@ class CrearedModel(models.Model):
         abstract = True
 
 
-class Location(PublishedModel, CrearedModel):
+class Location(PublishedModel):
     name = models.CharField(max_length=256, verbose_name='Название места')
 
     class Meta():
@@ -37,7 +31,7 @@ class Location(PublishedModel, CrearedModel):
         return self.name
 
 
-class Category(PublishedModel, CrearedModel):
+class Category(PublishedModel):
     title = models.CharField(max_length=256, verbose_name='Заголовок')
     description = models.TextField(verbose_name='Описание')
     slug = models.SlugField(
@@ -55,7 +49,7 @@ class Category(PublishedModel, CrearedModel):
         return self.title
 
 
-class Post(PublishedModel, CrearedModel):
+class Post(PublishedModel):
     title = models.CharField(max_length=256, verbose_name='Заголовок')
     text = models.TextField(verbose_name='Текст')
     pub_date = models.DateTimeField(
