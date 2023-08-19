@@ -95,7 +95,7 @@ class Post(PublishedModel):
             return self.title[:20] + '..'
         else:
             return self.title
-    
+
     @classmethod
     def published(cls):
         return cls.objects.filter(
