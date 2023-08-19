@@ -11,7 +11,7 @@ class PublishedModel(models.Model):
         verbose_name='Опубликовано',
         help_text='Снимите галочку, чтобы скрыть публикацию.'
         )
-    
+
     class Meta:
         abstract = True
 
@@ -28,7 +28,7 @@ class CrearedModel(models.Model):
 
 class Location(PublishedModel, CrearedModel):
     name = models.CharField(max_length=256, verbose_name='Название места')
-    
+
     class Meta():
         verbose_name = 'местоположение'
         verbose_name_plural = 'Местоположения'
@@ -38,7 +38,7 @@ class Location(PublishedModel, CrearedModel):
 
 
 class Category(PublishedModel, CrearedModel):
-    title = models.CharField(max_length=256, verbose_name='Название')
+    title = models.CharField(max_length=256, verbose_name='Заголовок')
     description = models.TextField(verbose_name='Описание')
     slug = models.SlugField(
         unique=True,
@@ -53,6 +53,7 @@ class Category(PublishedModel, CrearedModel):
 
     def __str__(self):
         return self.title
+
 
 class Post(PublishedModel, CrearedModel):
     title = models.CharField(max_length=256, verbose_name='Заголовок')
