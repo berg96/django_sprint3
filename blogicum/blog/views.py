@@ -44,7 +44,6 @@ def category_posts(request, category_slug):
         'category',
         'author'
     ).filter(
-        category__slug=category_slug,
         is_published=True,
         pub_date__lte=datetime.now()
     )
