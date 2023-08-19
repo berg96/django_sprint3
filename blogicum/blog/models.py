@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from django.db import models
 from django.contrib.auth import get_user_model
 
@@ -86,3 +88,11 @@ class Post(PublishedModel):
 
     def __str__(self):
         return self.title
+    
+    @classmethod
+    def published(cls):
+        return cls.objects.filter(
+            is_published=True,
+            category__is_published=True,
+            pub_date__lte=datetime.now()
+        )
