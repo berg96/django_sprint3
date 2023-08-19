@@ -13,7 +13,7 @@ def index(request):
         is_published=True,
         category__is_published=True,
         pub_date__lte=datetime.now()
-    ).order_by('-pub_date')[0:5]
+    )[0:5]
     context = {'post_list': post_list}
     return render(request, template, context)
 
