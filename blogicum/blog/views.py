@@ -5,7 +5,11 @@ from datetime import datetime
 
 def index(request):
     template = 'blog/index.html'
-    post_list = Post.objects.filter(
+    post_list = Post.objects.select_related(
+        'location',
+        'category',
+        'author'
+    ).filter(
         is_published=True,
         category__is_published=True,
         pub_date__lte=datetime.now()
@@ -17,7 +21,11 @@ def index(request):
 def post_detail(request, post_id):
     template = 'blog/detail.html'
     post = get_object_or_404(
-        Post,
+        Post.objects.select_related(
+            'location',
+            'category',
+            'author'
+        ),
         pub_date__lte=datetime.now(),
         is_published=True,
         category__is_published=True,
@@ -34,7 +42,11 @@ def category_posts(request, category_slug):
         slug=category_slug,
         is_published=True
     )
-    post_list = Post.objects.filter(
+    post_list = Post.objects.select_related(
+        'location',
+        'category',
+        'author'
+    ).filter(
         category__slug=category_slug,
         is_published=True,
         pub_date__lte=datetime.now()
