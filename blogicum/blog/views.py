@@ -42,7 +42,7 @@ def category_posts(request, category_slug):
         slug=category_slug,
         is_published=True
     )
-    post_list = Post.objects.select_related(
+    post_list = category.posts.select_related(
         'location',
         'category',
         'author'
