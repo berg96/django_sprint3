@@ -10,7 +10,7 @@ class PublishedModel(models.Model):
         default=True,
         verbose_name='Опубликовано',
         help_text='Снимите галочку, чтобы скрыть публикацию.'
-        )
+    )
 
     class Meta:
         abstract = True
@@ -20,7 +20,7 @@ class CrearedModel(models.Model):
     created_at = models.DateTimeField(
         auto_now_add=True,
         verbose_name='Добавлено'
-        )
+    )
 
     class Meta:
         abstract = True
@@ -68,7 +68,7 @@ class Post(PublishedModel, CrearedModel):
         on_delete=models.CASCADE,
         related_name='posts',
         verbose_name='Автор публикации'
-        )
+    )
     location = models.ForeignKey(
         Location,
         on_delete=models.SET_NULL,
