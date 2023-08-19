@@ -37,8 +37,8 @@ def category_posts(request, category_slug):
         'category',
         'author'
     ).filter(
-        is_published=True, 
-        pub_date__lte=datetime.now() 
+        is_published=True,
+        pub_date__lte=datetime.now()
     )
     return render(
         request,

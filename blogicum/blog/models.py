@@ -30,7 +30,10 @@ class Location(PublishedModel):
         verbose_name_plural = 'Местоположения'
 
     def __str__(self):
-        return self.name
+        if len(self.name) > 20:
+            return self.name[:20] + '..'
+        else:
+            return self.name
 
 
 class Category(PublishedModel):
@@ -48,7 +51,10 @@ class Category(PublishedModel):
         verbose_name_plural = 'Категории'
 
     def __str__(self):
-        return self.title
+        if len(self.title) > 20:
+            return self.title[:20] + '..'
+        else:
+            return self.title
 
 
 class Post(PublishedModel):
@@ -62,7 +68,6 @@ class Post(PublishedModel):
     author = models.ForeignKey(
         User,
         on_delete=models.CASCADE,
-        related_name='posts',
         verbose_name='Автор публикации'
     )
     location = models.ForeignKey(
@@ -70,14 +75,12 @@ class Post(PublishedModel):
         on_delete=models.SET_NULL,
         blank=True,
         null=True,
-        related_name='posts',
         verbose_name='Местоположение'
     )
     category = models.ForeignKey(
         Category,
         on_delete=models.SET_NULL,
         null=True,
-        related_name='posts',
         verbose_name='Категория'
     )
 
@@ -85,9 +88,13 @@ class Post(PublishedModel):
         verbose_name = 'публикация'
         verbose_name_plural = 'Публикации'
         ordering = ('-pub_date',)
+        default_related_name = 'posts'
 
     def __str__(self):
-        return self.title
+        if len(self.title) > 20:
+            return self.title[:20] + '..'
+        else:
+            return self.title
     
     @classmethod
     def published(cls):
