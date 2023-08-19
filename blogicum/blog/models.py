@@ -30,10 +30,7 @@ class Location(PublishedModel):
         verbose_name_plural = 'Местоположения'
 
     def __str__(self):
-        if len(self.name) > 20:
-            return self.name[:20] + '..'
-        else:
-            return self.name
+        return self.name[:20]
 
 
 class Category(PublishedModel):
@@ -51,10 +48,7 @@ class Category(PublishedModel):
         verbose_name_plural = 'Категории'
 
     def __str__(self):
-        if len(self.title) > 20:
-            return self.title[:20] + '..'
-        else:
-            return self.title
+        return f'{self.title[:20]}/{self.slug[:20]}/{self.description[:20]}'
 
 
 class Post(PublishedModel):
@@ -91,10 +85,8 @@ class Post(PublishedModel):
         default_related_name = 'posts'
 
     def __str__(self):
-        if len(self.title) > 20:
-            return self.title[:20] + '..'
-        else:
-            return self.title
+        return (f'{self.title[:20]}/{self.text[:20]}/{self.author[:20]}',
+                f'/{self.location[:20]}/{self.category[:20]}')
 
     @classmethod
     def published(cls):
