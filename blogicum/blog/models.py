@@ -6,21 +6,28 @@ User = get_user_model()
 
 
 class PublishedModel(models.Model):
-    is_published = models.BooleanField(default=True, verbose_name='Опубликовано')
+    is_published = models.BooleanField(
+        default=True,
+        verbose_name='Опубликовано',
+        help_text='Снимите галочку, чтобы скрыть публикацию.'
+        )
     
     class Meta:
         abstract = True
 
 
 class CrearedModel(models.Model):
-    created_at = models.DateTimeField(auto_now_add=True, verbose_name='Время создания')
+    created_at = models.DateTimeField(
+        auto_now_add=True,
+        verbose_name='Добавлено'
+        )
 
     class Meta:
         abstract = True
 
 
 class Location(PublishedModel, CrearedModel):
-    name = models.CharField(max_length=256, verbose_name='Название')
+    name = models.CharField(max_length=256, verbose_name='Название места')
     
     class Meta():
         verbose_name = 'местоположение'
@@ -33,7 +40,12 @@ class Location(PublishedModel, CrearedModel):
 class Category(PublishedModel, CrearedModel):
     title = models.CharField(max_length=256, verbose_name='Название')
     description = models.TextField(verbose_name='Описание')
-    slug = models.SlugField(unique=True, verbose_name='Слаг')
+    slug = models.SlugField(
+        unique=True,
+        verbose_name='Идентификатор',
+        help_text=('Идентификатор страницы для URL; '
+                   'разрешены символы латиницы, цифры, дефис и подчёркивание.')
+    )
 
     class Meta:
         verbose_name = 'категория'
@@ -43,14 +55,18 @@ class Category(PublishedModel, CrearedModel):
         return self.title
 
 class Post(PublishedModel, CrearedModel):
-    title = models.CharField(max_length=256, verbose_name='Название')
+    title = models.CharField(max_length=256, verbose_name='Заголовок')
     text = models.TextField(verbose_name='Текст')
-    pub_date = models.DateTimeField(verbose_name='Время публикации')
+    pub_date = models.DateTimeField(
+        verbose_name='Дата и время публикации',
+        help_text=('Если установить дату и время в будущем'
+                   ' — можно делать отложенные публикации.')
+    )
     author = models.ForeignKey(
         User,
         on_delete=models.CASCADE,
         related_name='posts',
-        verbose_name='Автор'
+        verbose_name='Автор публикации'
         )
     location = models.ForeignKey(
         Location,
