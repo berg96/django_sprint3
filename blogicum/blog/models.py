@@ -5,16 +5,22 @@ from django.contrib.auth import get_user_model
 User = get_user_model()
 
 
-class Location(models.Model):
+class PublishedModel(models.Model):
+    is_published = models.BooleanField(default=True, verbose_name='Опубликовано')
+    
+    class Meta:
+        abstract = True
+
+
+class CrearedModel(models.Model):
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name='Время создания')
+
+    class Meta:
+        abstract = True
+
+
+class Location(PublishedModel, CrearedModel):
     name = models.CharField(max_length=256, verbose_name='Название')
-    is_published = models.BooleanField(
-        default=True,
-        verbose_name='Опубликовано'
-        )
-    created_at = models.DateTimeField(
-        auto_now_add=True,
-        verbose_name='Время создания'
-        )
     
     class Meta():
         verbose_name = 'местоположение'
@@ -24,18 +30,10 @@ class Location(models.Model):
         return self.name
 
 
-class Category(models.Model):
+class Category(PublishedModel, CrearedModel):
     title = models.CharField(max_length=256, verbose_name='Название')
     description = models.TextField(verbose_name='Описание')
     slug = models.SlugField(unique=True, verbose_name='Слаг')
-    is_published = models.BooleanField(
-        default=True,
-        verbose_name='Опубликовано'
-        )
-    created_at = models.DateTimeField(
-        auto_now_add=True,
-        verbose_name='Время создания'
-        )
 
     class Meta:
         verbose_name = 'категория'
@@ -44,7 +42,7 @@ class Category(models.Model):
     def __str__(self):
         return self.title
 
-class Post(models.Model):
+class Post(PublishedModel, CrearedModel):
     title = models.CharField(max_length=256, verbose_name='Название')
     text = models.TextField(verbose_name='Текст')
     pub_date = models.DateTimeField(verbose_name='Время публикации')
@@ -69,14 +67,6 @@ class Post(models.Model):
         related_name='posts',
         verbose_name='Категория'
     )
-    is_published = models.BooleanField(
-        default=True,
-        verbose_name='Опубликовано'
-        )
-    created_at = models.DateTimeField(
-        auto_now_add=True,
-        verbose_name='Время создания'
-        )
 
     class Meta:
         verbose_name = 'публикация'
