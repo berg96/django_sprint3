@@ -33,9 +33,9 @@ def category_posts(request, category_slug):
     )
     return render(request, 'blog/category.html', {
         'category': category,
-        'post_list': category.posts.select_related(
+        'post_list': Post.published().select_related(
             'location',
             'category',
             'author'
-        ).filter(is_published=True, pub_date__lte=datetime.now()),
+        ).filter(category__slug=category_slug)
     })
