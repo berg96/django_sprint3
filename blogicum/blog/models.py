@@ -85,8 +85,9 @@ class Post(PublishedModel):
         default_related_name = 'posts'
 
     def __str__(self):
-        return (f'{self.title[:20]}/{self.text[:20]}/{self.author[:20]}',
-                f'/{self.location[:20]}/{self.category[:20]}')
+        return (f'{self.title[:20]}/{self.text[:20]}/'
+                f'{self.author.username[:20]}'
+                f'/{self.location.name[:20]}/{self.category.title[:20]}')
 
     @classmethod
     def published(cls):
